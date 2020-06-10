@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+
+//定义时间
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd_HH-mm", TimeZone.getTimeZone("GMT+8"))
+}
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+    defaultConfig {
+        applicationId "com.example.zp.webviewstudy"
+        minSdkVersion 14
+        targetSdkVersion 28
+        versionCode 9
+        versionName "1.0.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // tencent x5
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    // 其他 webview
+    signingConfigs {
+        release {
+            storeFile file("./keypz.jks")
+            storePassword "123456"
+            keyAlias "keypz"
+            keyPassword "123456"
+        }
+        debug {
+            storeFile file("./keypz.jks")
+            storePassword "123456"
+            keyAlias "keypz"
+            keyPassword "123456"
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            if(variant.buildType.name.equals('debug')){
+                outputFileName = "pz_analyze_${variant.buildType.name}_${releaseTime()}.apk"
+            }
+            if(variant.buildType.name.equals('release')){
+                outputFileName = "pz_analyze_${variant.buildType.name}_${defaultConfig.versionName}_${releaseTime()}.apk"
+            }
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation "com.android.support:design:28.0.0"
+    testImplementation 'junit:junit:4.12'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    implementation files('libs/tbs_sdk_thirdapp_v3.1.0.1034_43100_sharewithdownload_obfs_20170301_182143.jar')
+}
