@@ -179,14 +179,14 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
 
         String finalUrl = "";
         if (url.contains("qq.com")) { //腾讯视频
-            if (url.contains(MT) && url.contains(".html") && url.contains(VT)) {
+            if (url.contains(MT) && url.contains(VT)) {
                 //http://m.v.qq.com/cover/m/m441e3rjq9kwpsc.html?vid=a0034kay7kk
                 int mtl = url.indexOf(MT) + MT.length();
                 int vtl = url.indexOf(VT) + VT.length();
                 String c = url.substring(mtl, mtl + CID.length());
                 String v = url.substring(vtl, vtl + VID.length());
                 finalUrl = String.format("%shttps://v.qq.com/x/cover/%s/%s.html", UrlCantent.VIPURL, c, v);
-            } else if (url.contains(MT) && url.contains(CT) && url.contains(VT)) {
+            } else if (url.contains(CT) && url.contains(VT)) {
                 //http://m.v.qq.com/x/m/play?cid=ipmc5u3dwb48mv2&vid=y0034wx4dps
                 int ctl = url.indexOf(CT) + CT.length();
                 int vtl = url.indexOf(VT) + VT.length();
